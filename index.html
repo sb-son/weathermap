@@ -12,30 +12,98 @@
 <!--MAPBOX CSS-->
 </head>
 <body>
-    <nav>
-        <h1>Weather App</h1>
+<!--NAVBAR-->
+    <nav class="bg-primary text-white m-auto p-1 align-items-center d-flex">
+        <h1 class="mb-2 ms-2 align-items-center">Weather App</h1>
+        <div class="m-auto" id="city">Current City: </div>
     </nav>
-    <section>
-        <div class="forecast"></div>
-        <div class="forecast"></div>
-        <div class="forecast"></div>
-        <div class="forecast"></div>
-        <div class="forecast"></div>
+<!--SEARCH-->
+    <section class="m-4" id="search-section">
+        <span>Place</span>
+        <input type="search" id="search-city" placeholder="Search your city...">
+        <input type="button" value="Find" class="bg-primary text-white" id="button-city">
     </section>
+<!--WEATHER FORECAST-->
+    <section class="container-fluid d-flex justify-content-between p-0 m-auto mb-5" id="forecast-section">
+        <div class="card row text-center m-auto" style="width: 18rem;">
+            <h4 class="card-header p-0" id="date-1">
+                Date
+            </h4>
+            <ul class="list-group list-group-flush p-0">
+                <li class="list-group-item p-0">Temp</li>
+                <li class="list-group-item p-0">Description: </li>
+                <li class="list-group-item p-0">Humidity: </li>
+                <li class="list-group-item p-0">Wind: </li>
+                <li class="list-group-item p-0">Pressure: </li>
+            </ul>
+        </div>
+        <div class="card row text-center m-auto" style="width: 18rem;">
+            <h4 class="card-header p-0" id="date-2">
+                Date
+            </h4>
+            <ul class="list-group list-group-flush p-0">
+                <li class="list-group-item p-0">Temp</li>
+                <li class="list-group-item p-0">Description: </li>
+                <li class="list-group-item p-0">Humidity: </li>
+                <li class="list-group-item p-0">Wind: </li>
+                <li class="list-group-item p-0">Pressure: </li>
+            </ul>
+        </div>
+        <div class="card row text-center m-auto" style="width: 18rem;">
+            <h4 class="card-header p-0" id="date-3">
+                Date
+            </h4>
+            <ul class="list-group list-group-flush p-0">
+                <li class="list-group-item p-0">Temp</li>
+                <li class="list-group-item p-0">Description: </li>
+                <li class="list-group-item p-0">Humidity: </li>
+                <li class="list-group-item p-0">Wind: </li>
+                <li class="list-group-item p-0">Pressure: </li>
+            </ul>
+        </div>
+        <div class="card row text-center m-auto" style="width: 18rem;">
+            <h4 class="card-header p-0" id="date-4">
+                Date
+            </h4>
+            <ul class="list-group list-group-flush p-0">
+                <li class="list-group-item p-0">Temp</li>
+                <li class="list-group-item p-0">Description: </li>
+                <li class="list-group-item p-0">Humidity: </li>
+                <li class="list-group-item p-0">Wind: </li>
+                <li class="list-group-item p-0">Pressure: </li>
+            </ul>
+        </div>
+        <div class="card row text-center m-auto" style="width: 18rem;">
+            <h4 class="card-header p-0" id="date-5">
+                Date
+            </h4>
+            <ul class="list-group list-group-flush p-0">
+                <li class="list-group-item p-0">Temp</li>
+                <li class="list-group-item p-0">Description: </li>
+                <li class="list-group-item p-0">Humidity: </li>
+                <li class="list-group-item p-0">Wind: </li>
+                <li class="list-group-item p-0">Pressure: </li>
+            </ul>
+        </div>
+    </section>
+<!--MAP-->
     <section class="map_box_container">
         <div id='map'></div>
     </section>
+<!--//////////-->
+<!--JAVASCRIPT-->
+<!--//////////-->
 <!--BOOTSTRAP-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<!--API KEYS-->
-    <script src="js/keys.js"></script>
-<!--GEOCODER API-->
-    <script src="js/mapbox-geocoder-utils.js"></script>
-<!--MAPBOX JS-->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
 <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<!--MAPBOX JS-->
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
+<!--API KEYS-->
+<script src="js/keys.js"></script>
+<!--GEOCODER API-->
+<script src="js/mapbox-geocoder-utils.js"></script>
 <!--CUSTOM JS-->
-    <script src="js/main.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
