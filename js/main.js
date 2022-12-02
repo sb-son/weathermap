@@ -21,16 +21,24 @@ $.get("http://api.openweathermap.org/data/2.5/forecast", {
     APPID: OPEN_WEATHER_MAP_KEY
 }).done(function(data) {
     $("#city").append(data.city.name);
-    $("#date-1").text(data.list[0].dt);
+    //get dates
+    $("#date-1").html(convertDate(data.list[0].dt));
+    $("#date-2").html(convertDate(data.list[8].dt));
+    $("#date-3").html(convertDate(data.list[16].dt));
+    $("#date-4").html(convertDate(data.list[24].dt));
+    $("#date-5").html(convertDate(data.list[32].dt));
+    //get temps
+
     console.log('5 day forecast', data);
 });
 
 function convertDate(dt){
-    var a = new Date(dt * 1000).toLocaleTimeString("en-US");
+    var a = new Date(dt * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var year = a.getFullYear();
+    let days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var day = days[a.getDay()];
     var month = months[a.getMonth()];
     var date = a.getDate();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    var time = day + '<br>' + ' ' + month + ' ' + date;
     return time;
 }
