@@ -10,65 +10,103 @@ const map = new mapboxgl.Map({
     zoom:10, // starting zoom
 });
 
-//Mapbox geocoder/search
-map.addControl(
-    new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
+
+map.on('load', function () {
+    //Mapbox geocoder/search
+
+
+    // Mapbox Marker
+    const marker = new mapboxgl.Marker({
+        draggable: true
     })
-);
+        .setLngLat([-98.4861, 29.4260])
+        .addTo(map);
 
-//Mapbox Marker
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: false
+    })
+
+    map.addControl(
+        new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+        })
+    );
+
+    map.addControl(
+        geocoder
+    );
 
 
-//OPENWEATHER API
-let excludeList = "hourly,daily"
 
-$.get("http://api.openweathermap.org/data/2.5/forecast", {
-    lat:    29.493490,
-    lon:   -98.499634,
-    units: "imperial",
-    APPID: OPEN_WEATHER_MAP_KEY
-}).done(function(data) {
-    $("#city").append(data.city.name);
-    //get dates
-    $("#date-1").html(convertDate(data.list[0].dt));
-    $("#date-2").html(convertDate(data.list[8].dt));
-    $("#date-3").html(convertDate(data.list[16].dt));
-    $("#date-4").html(convertDate(data.list[24].dt));
-    $("#date-5").html(convertDate(data.list[32].dt));
-    //get temps
-    $("#temp-1").html(data.list[0].main.temp.toFixed(1) + '&#8457');
-    $("#temp-2").html(data.list[8].main.temp.toFixed(1) + '&#8457');
-    $("#temp-3").html(data.list[16].main.temp.toFixed(1) + '&#8457');
-    $("#temp-4").html(data.list[24].main.temp.toFixed(1) + '&#8457');
-    $("#temp-5").html(data.list[32].main.temp.toFixed(1) + '&#8457');
-    //get description
-    $("#desc-1").html(`<strong>${capitalizeFirstLetter(data.list[0].weather[0].description)}</strong>`);
-    $("#desc-2").html(`<strong>${capitalizeFirstLetter(data.list[8].weather[0].description)}</strong>`);
-    $("#desc-3").html(`<strong>${capitalizeFirstLetter(data.list[16].weather[0].description)}</strong>`);
-    $("#desc-4").html(`<strong>${capitalizeFirstLetter(data.list[24].weather[0].description)}</strong>`);
-    $("#desc-5").html(`<strong>${capitalizeFirstLetter(data.list[32].weather[0].description)}</strong>`);
-    //get humidity
-    $("#hum-1").append(`<strong>${data.list[0].main.humidity}%</strong>`);
-    $("#hum-2").append(`<strong>${data.list[8].main.humidity}%</strong>`);
-    $("#hum-3").append(`<strong>${data.list[16].main.humidity}%</strong>`);
-    $("#hum-4").append(`<strong>${data.list[24].main.humidity}%</strong>`);
-    $("#hum-5").append(`<strong>${data.list[32].main.humidity}%</strong>`);
-    //get wind
-    $("#wind-1").append(`<strong>${data.list[0].wind.speed}</strong> mph`);
-    $("#wind-2").append(`<strong>${data.list[8].wind.speed}</strong> mph`);
-    $("#wind-3").append(`<strong>${data.list[16].wind.speed}</strong> mph`);
-    $("#wind-4").append(`<strong>${data.list[24].wind.speed}</strong> mph`);
-    $("#wind-5").append(`<strong>${data.list[32].wind.speed}</strong> mph`);
-    //get pressure
-    $("#pres-1").append(`<strong>${baroPressure(data.list[0].main.pressure).toFixed(2)}</strong> inHg`);
-    $("#pres-2").append(`<strong>${baroPressure(data.list[8].main.pressure).toFixed(2)}</strong> inHg`);
-    $("#pres-3").append(`<strong>${baroPressure(data.list[16].main.pressure).toFixed(2)}</strong> inHg`);
-    $("#pres-4").append(`<strong>${baroPressure(data.list[24].main.pressure).toFixed(2)}</strong> inHg`);
-    $("#pres-5").append(`<strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
+    function onDragEnd(i) {
+        const lngLat = marker.getLngLat();
+        let arr = []
+        arr.push(lngLat.lng, lngLat.lat)
+        return arr[i]
+    }
 
-    console.log('5 day forecast', data);
+    geocoder.on('result', function (e) {
+        marker.setLngLat(e.result.center)
+        getWeather()
+    })
+
+    marker.on('dragend', onDragEnd);
+    marker.on('dragend', getWeather);
+
+    //OPENWEATHER API
+    function getWeather() {
+        $.get("http://api.openweathermap.org/data/2.5/forecast", {
+            lat: onDragEnd(1),
+            lon: onDragEnd(0),
+            units: "imperial",
+            APPID: OPEN_WEATHER_MAP_KEY
+        }).done(function (data) {
+            $("#city").html(`Current City: ${data.city.name}`);
+            //get dates
+            $("#date-1").html(convertDate(data.list[0].dt));
+            $("#date-2").html(convertDate(data.list[8].dt));
+            $("#date-3").html(convertDate(data.list[16].dt));
+            $("#date-4").html(convertDate(data.list[24].dt));
+            $("#date-5").html(convertDate(data.list[32].dt));
+            //get temps
+            $("#temp-1").html(data.list[0].main.temp.toFixed(1) + '&#8457');
+            $("#temp-2").html(data.list[8].main.temp.toFixed(1) + '&#8457');
+            $("#temp-3").html(data.list[16].main.temp.toFixed(1) + '&#8457');
+            $("#temp-4").html(data.list[24].main.temp.toFixed(1) + '&#8457');
+            $("#temp-5").html(data.list[32].main.temp.toFixed(1) + '&#8457');
+            //get description
+            $("#desc-1").html(`<strong>${capitalizeFirstLetter(data.list[0].weather[0].description)}</strong>`);
+            $("#desc-2").html(`<strong>${capitalizeFirstLetter(data.list[8].weather[0].description)}</strong>`);
+            $("#desc-3").html(`<strong>${capitalizeFirstLetter(data.list[16].weather[0].description)}</strong>`);
+            $("#desc-4").html(`<strong>${capitalizeFirstLetter(data.list[24].weather[0].description)}</strong>`);
+            $("#desc-5").html(`<strong>${capitalizeFirstLetter(data.list[32].weather[0].description)}</strong>`);
+            //get humidity
+            $("#hum-1").html(`Humidity: <strong>${data.list[0].main.humidity}%</strong>`);
+            $("#hum-2").html(`Humidity: <strong>${data.list[8].main.humidity}%</strong>`);
+            $("#hum-3").html(`Humidity: <strong>${data.list[16].main.humidity}%</strong>`);
+            $("#hum-4").html(`Humidity: <strong>${data.list[24].main.humidity}%</strong>`);
+            $("#hum-5").html(`Humidity: <strong>${data.list[32].main.humidity}%</strong>`);
+            //get wind
+            $("#wind-1").html(`Wind: <strong>${data.list[0].wind.speed}</strong> mph`);
+            $("#wind-2").html(`Wind: <strong>${data.list[8].wind.speed}</strong> mph`);
+            $("#wind-3").html(`Wind: <strong>${data.list[16].wind.speed}</strong> mph`);
+            $("#wind-4").html(`Wind: <strong>${data.list[24].wind.speed}</strong> mph`);
+            $("#wind-5").html(`Wind: <strong>${data.list[32].wind.speed}</strong> mph`);
+            //get pressure
+            $("#pres-1").html(`Barometer: <strong>${baroPressure(data.list[0].main.pressure).toFixed(2)}</strong> inHg`);
+            $("#pres-2").html(`Barometer: <strong>${baroPressure(data.list[8].main.pressure).toFixed(2)}</strong> inHg`);
+            $("#pres-3").html(`Barometer: <strong>${baroPressure(data.list[16].main.pressure).toFixed(2)}</strong> inHg`);
+            $("#pres-4").html(`Barometer: <strong>${baroPressure(data.list[24].main.pressure).toFixed(2)}</strong> inHg`);
+            $("#pres-5").html(`Barometer: <strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
+
+            console.log('5 day forecast', data);
+        });
+    }
+    getWeather(); //get weather on page load
 });
 
 //convert hectopascals to inch of mercury | hPa -> inHg
@@ -89,7 +127,7 @@ function convertDate(dt){
     var time = day + '<br>' + ' ' + month + ' ' + date;
     return time;
 }
-
+//Capitalize first letter of a string
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
