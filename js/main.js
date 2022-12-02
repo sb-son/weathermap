@@ -1,5 +1,10 @@
 "use strict";
 
+//get current time
+setInterval( function () {
+    const date = new Date();
+    $("#timer").html(date);
+}, 1000)
 
 //MAPBOX API
 mapboxgl.accessToken = MAP_BOX_KEY
@@ -12,9 +17,6 @@ const map = new mapboxgl.Map({
 
 
 map.on('load', function () {
-    //Mapbox geocoder/search
-
-
     // Mapbox Marker
     const marker = new mapboxgl.Marker({
         draggable: true
@@ -22,6 +24,7 @@ map.on('load', function () {
         .setLngLat([-98.4861, 29.4260])
         .addTo(map);
 
+    //Mapbox geocoder/search
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
@@ -29,18 +32,8 @@ map.on('load', function () {
     })
 
     map.addControl(
-        new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: true
-            },
-        })
-    );
-
-    map.addControl(
         geocoder
     );
-
-
 
     function onDragEnd(i) {
         const lngLat = marker.getLngLat();
@@ -53,9 +46,17 @@ map.on('load', function () {
         marker.setLngLat(e.result.center)
         getWeather()
     })
-
+    map.on('click', function (e) {
+        map.flyTo({
+            center: e.marker.center
+        });
+    })
+    map.on('mouseenter', 'map', function (e) {
+        map.getCanvas().style.cursor = 'pointer'
+    })
     marker.on('dragend', onDragEnd);
     marker.on('dragend', getWeather);
+    getWeather(); //get weather on page load
 
     //OPENWEATHER API
     function getWeather() {
@@ -65,6 +66,7 @@ map.on('load', function () {
             units: "imperial",
             APPID: OPEN_WEATHER_MAP_KEY
         }).done(function (data) {
+            //get city
             $("#city").html(`Current City: ${data.city.name}`);
             //get dates
             $("#date-1").html(convertDate(data.list[0].dt));
@@ -106,18 +108,16 @@ map.on('load', function () {
             console.log('5 day forecast', data);
         });
     }
-    getWeather(); //get weather on page load
 });
 
 //convert hectopascals to inch of mercury | hPa -> inHg
 function baroPressure(pressure) {
     const inchOfMercuryPerHectopascal = 0.02952998597817832;
-    let barometricPressure = pressure * inchOfMercuryPerHectopascal;
-    return barometricPressure;
+    return pressure * inchOfMercuryPerHectopascal;
 }
 
 //convert timestamp to new date format
-function convertDate(dt){
+function convertDate(dt) {
     var a = new Date(dt * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     let days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
