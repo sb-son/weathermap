@@ -15,18 +15,28 @@
 <body>
 <!--NAVBAR-->
     <nav class="navbar bg-primary text-white m-auto p-2 align-items-center d-flex">
-        <h1 class="me-auto mb-0 text-center">Weather App</h1>
+        <h1 class="me-auto mb-0 text-center">Weather Map</h1>
         <div class="ms-auto" id="city">Current City: </div>
     </nav>
-<!--SEARCH-->
-    <section class="m-4" id="search-section">
-        <span>Place</span>
-        <input type="search" id="search-city" placeholder="Search your city...">
-        <input type="button" value="Find" class="bg-primary text-white" id="button-city">
-    </section>
-<!--WEATHER FORECAST-->
-    <section class="container-fluid d-flex justify-content-between p-0 m-auto mb-5" id="forecast-section">
-        <div class="card row text-center m-auto" style="width: 18rem;">
+<!--CURRENT WEATHER-->
+<section class="container-fluid d-flex justify-content-between p-0 m-auto mb-5" id="current-weather-section">
+    <div class="card">
+        <h4 class="card-header p-0" id="date-current">
+            Date
+        </h4>
+        <ul class="list-group list-group-flush p-0">
+            <li class="list-group-item p-0" id="temp-current"></li>
+            <li class="list-group-item p-0" id="desc-current"></li>
+            <li class="list-group-item p-0" id="hum-current"></li>
+            <li class="list-group-item p-0" id="wind-current"></li>
+            <li class="list-group-item p-0" id="pres-current"></li>
+        </ul>
+    </div>
+</section>
+<!--WEATHER FORECAST CARDS-->
+    <section class="container-fluid d-flex justify-content-between p-0 m-auto d-none d-md-flex" id="forecast-section">
+        <!--CARD 1-->
+        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-1">
                 Date
             </h4>
@@ -38,7 +48,8 @@
                 <li class="list-group-item p-0" id="pres-1"></li>
             </ul>
         </div>
-        <div class="card row text-center m-auto" style="width: 18rem;">
+        <!--CARD 2-->
+        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-2">
                 Date
             </h4>
@@ -50,7 +61,8 @@
                 <li class="list-group-item p-0" id="pres-2"></li>
             </ul>
         </div>
-        <div class="card row text-center m-auto" style="width: 18rem;">
+        <!--CARD 3-->
+        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-3">
                 Date
             </h4>
@@ -62,7 +74,8 @@
                 <li class="list-group-item p-0" id="pres-3"></li>
             </ul>
         </div>
-        <div class="card row text-center m-auto" style="width: 18rem;">
+        <!--CARD 4-->
+        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-4">
                 Date
             </h4>
@@ -74,7 +87,8 @@
                 <li class="list-group-item p-0" id="pres-4"></li>
             </ul>
         </div>
-        <div class="card row text-center m-auto" style="width: 18rem;">
+        <!--CARD 5-->
+        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-5">
                 Date
             </h4>
@@ -89,7 +103,8 @@
     </section>
 <!--TIMER-->
     <section>
-        <div id="timer"></div>
+        <div class="d-flex flex-row-reverse" id="timer"></div>
+        <div class="d-flex flex-row-reverse" id="timer-2"></div>
     </section>
 <!--MAP-->
     <section class="map_box_container">

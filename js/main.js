@@ -2,9 +2,13 @@
 
 //get current time
 setInterval( function () {
-    const date = new Date();
-    $("#timer").html(date);
+    const dt = new Date().toString().slice(0,25);
+    $("#timer-2").html(dt);
 }, 1000)
+
+function changeToTimezone(dt, tz) {
+    return new Date((dt * 1000 - (tz * 1000))).toString().slice(4,33)
+}
 
 //MAPBOX API
 mapboxgl.accessToken = MAP_BOX_KEY
@@ -14,7 +18,6 @@ const map = new mapboxgl.Map({
     center: [-98.4861, 29.4260], // starting position [lng, lat]
     zoom:10, // starting zoom
 });
-
 
 map.on('load', function () {
     // Mapbox Marker
@@ -43,20 +46,27 @@ map.on('load', function () {
     }
 
     geocoder.on('result', function (e) {
-        marker.setLngLat(e.result.center)
-        getWeather()
-    })
-    map.on('click', function (e) {
-        map.flyTo({
-            center: e.marker.center
-        });
-    })
-    map.on('mouseenter', 'map', function (e) {
-        map.getCanvas().style.cursor = 'pointer'
+        marker.setLngLat(e.result.center);
+        getWeather();
+        $(".mapboxgl-ctrl-geocoder--input").val('');
     })
     marker.on('dragend', onDragEnd);
     marker.on('dragend', getWeather);
+    marker.on('dragend', getCurrentWeather);
     getWeather(); //get weather on page load
+    getCurrentWeather()
+
+    function getCurrentWeather() {
+        $.get("http://api.openweathermap.org/data/2.5/weather", {
+            lat: onDragEnd(1),
+            lon: onDragEnd(0),
+            APPID: OPEN_WEATHER_MAP_KEY
+        }).done(function (data) {
+            //get time
+            $("#timer").html(`Weather Data last accessed: ${changeToTimezone(data.dt, data.timezone)}`);
+            console.log('current weather', data);
+        });
+    }
 
     //OPENWEATHER API
     function getWeather() {
