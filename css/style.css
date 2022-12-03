@@ -9,3 +9,13 @@ body {
 #forecast-section {
     height: 40%;
 }
+#current-weather-section {
+    width: 30em;
+    margin: 5em;
+}
+#timers {
+    width: fit-content;
+    display: block;
+    margin: 10px 5px 10px auto;
+    background-color: lightgray;
+}

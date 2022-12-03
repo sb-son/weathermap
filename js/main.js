@@ -1,15 +1,5 @@
 "use strict";
 
-//get current time
-setInterval( function () {
-    const dt = new Date().toString().slice(0,25);
-    $("#timer-2").html(dt);
-}, 1000)
-
-function changeToTimezone(dt, tz) {
-    return new Date((dt * 1000 - (tz * 1000))).toString().slice(4,33)
-}
-
 //MAPBOX API
 mapboxgl.accessToken = MAP_BOX_KEY
 const map = new mapboxgl.Map({
@@ -22,6 +12,7 @@ const map = new mapboxgl.Map({
 map.on('load', function () {
     // Mapbox Marker
     const marker = new mapboxgl.Marker({
+        color: '#006AFF',
         draggable: true
     })
         .setLngLat([-98.4861, 29.4260])
@@ -60,10 +51,24 @@ map.on('load', function () {
         $.get("http://api.openweathermap.org/data/2.5/weather", {
             lat: onDragEnd(1),
             lon: onDragEnd(0),
+            units: 'imperial',
             APPID: OPEN_WEATHER_MAP_KEY
         }).done(function (data) {
             //get time
             $("#timer").html(`Weather Data last accessed: ${changeToTimezone(data.dt, data.timezone)}`);
+            //get date
+            $("#date-current").html(convertDate(data.dt))
+            //get temp
+            $("#temp-current").html(data.main.temp.toFixed(1) + '&#8457')
+            //get description
+            $("#desc-current").html(`<strong>${capitalizeFirstLetter(data.weather[0].description)}</strong>`);
+            //get humidity
+            $("#hum-current").html(`Humidity: <strong>${data.main.humidity}%</strong>`);
+            //get wind
+            $("#wind-current").html(`Wind: <strong>${data.wind.speed}</strong> mph`);
+            //get pressure
+            $("#pres-current").html(`Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg`);
+
             console.log('current weather', data);
         });
     }
@@ -120,6 +125,7 @@ map.on('load', function () {
     }
 });
 
+
 //convert hectopascals to inch of mercury | hPa -> inHg
 function baroPressure(pressure) {
     const inchOfMercuryPerHectopascal = 0.02952998597817832;
@@ -140,4 +146,14 @@ function convertDate(dt) {
 //Capitalize first letter of a string
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+//get current time
+setInterval( function () {
+    const dt = new Date().toString().slice(0,25);
+    $("#timer-2").html(dt);
+}, 1000)
+
+function changeToTimezone(dt, tz) {
+    return new Date((dt * 1000 - (tz * 1000))).toString().slice(4,33)
 }
