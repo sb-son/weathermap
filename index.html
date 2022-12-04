@@ -14,15 +14,15 @@
 </head>
 <body>
 <!--NAVBAR-->
-    <nav class="navbar bg-primary text-white m-auto p-2 align-items-center d-flex justify-content-center">
+    <nav class="navbar m-auto p-2 align-items-center d-flex justify-content-center" id="navbar">
         <h1 class="me-sm-auto mb-0 text-center d-flex">Weather Map</h1>
         <div class="ms-auto d-none d-sm-flex" id="city">Current City: </div>
     </nav>
 <!--CURRENT WEATHER-->
-<div class="card bg-light me-5 ms-5 mt-2 mb-2 m-auto"><span class="d-flex ms-3 fw-bolder text-decoration-underline">Current Weather</span>
-<section class="d-flex justify-content-center p-0 m-auto w-100" id="current-weather-section">
+<div class="card me-5 ms-5 mt-2 mb-2 m-auto cards"><span class="d-flex ms-3 fw-bolder text-decoration-underline">Current Weather</span>
+<section class="d-flex justify-content-center p-0 m-auto w-100 cards" id="current-weather-section">
     <div class="card row text-center container-fluid p-0 mb-2 m-2">
-        <h4 class="card-header p-0" id="date-current">Date</h4>
+        <h4 class="card-header p-0 cards" id="date-current">Date</h4>
         <ul class="list-group list-group-flush p-0">
             <li class="list-group-item p-0" id="temp-current"></li>
             <li class="list-group-item p-0" id="desc-current"></li>
@@ -34,23 +34,23 @@
 </section>
 </div>
 <!--WEATHER FORECAST CARDS-->
-<div class="card bg-light mb-2 mt-2 ms-2 me-2 m-auto d-none d-lg-flex"><span class="d-flex ms-3 fw-bolder text-decoration-underline">5 Day Forecast</span>
-    <section class="container-fluid d-flex justify-content-between p-0 mb-2 m-auto d-none d-md-flex" id="forecast-section">
+<div class="card mb-2 mt-2 ms-2 me-2 m-auto d-none d-lg-flex cards"><span class="d-flex ms-3 fw-bolder text-decoration-underline bg-transparent">5 Day Forecast</span>
+    <section class="container-fluid d-flex justify-content-between p-0 mb-2 m-auto d-none d-md-flex cards" id="forecast-section">
         <!--CARD 1-->
-        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
-            <h4 class="card-header p-0" id="date-1">Date</h4>
-            <ul class="list-group list-group-flush p-0">
-                <li class="list-group-item p-0" id="temp-1"></li>
-                <li class="list-group-item p-0" id="desc-1"></li>
-                <li class="list-group-item p-0" id="hum-1"></li>
-                <li class="list-group-item p-0" id="wind-1"></li>
-                <li class="list-group-item p-0" id="pres-1"></li>
+        <div class="card row text-center ms-auto me-auto forecast-cards cards" style="width: 18rem;">
+            <h4 class="card-header p-0 cards-header" id="date-1">Date</h4>
+            <ul class="list-group list-group-flush p-0 cards">
+                <li class="list-group-item p-0 cards" id="temp-1"></li>
+                <li class="list-group-item p-0 cards" id="desc-1"></li>
+                <li class="list-group-item p-0 cards" id="hum-1"></li>
+                <li class="list-group-item p-0 cards" id="wind-1"></li>
+                <li class="list-group-item p-0 cards" id="pres-1"></li>
             </ul>
         </div>
         <!--CARD 2-->
-        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
-            <h4 class="card-header p-0" id="date-2">Date</h4>
-            <ul class="list-group list-group-flush p-0">
+        <div class="card row text-center ms-auto me-auto forecast-cards cards" style="width: 18rem;">
+            <h4 class="card-header p-0 cards" id="date-2">Date</h4>
+            <ul class="list-group list-group-flush p-0 cards">
                 <li class="list-group-item p-0" id="temp-2"></li>
                 <li class="list-group-item p-0" id="desc-2"></li>
                 <li class="list-group-item p-0" id="hum-2"></li>
@@ -59,9 +59,9 @@
             </ul>
         </div>
         <!--CARD 3-->
-        <div class="card row text-center ms-auto me-auto forecast-cards" style="width: 18rem;">
+        <div class="card row text-center ms-auto me-auto forecast-cards cards" style="width: 18rem;">
             <h4 class="card-header p-0" id="date-3">Date</h4>
-            <ul class="list-group list-group-flush p-0">
+            <ul class="list-group list-group-flush p-0 cards">
                 <li class="list-group-item p-0" id="temp-3"></li>
                 <li class="list-group-item p-0" id="desc-3"></li>
                 <li class="list-group-item p-0" id="hum-3"></li>
