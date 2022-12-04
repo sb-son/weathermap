@@ -5,9 +5,11 @@ mapboxgl.accessToken = MAP_BOX_KEY
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/dark-v11', // style URL
+    color: '#315b7d',
     center: [-98.4861, 29.4260], // starting position [lng, lat]
     zoom:10, // starting zoom
 });
+console.log(map)
 
 map.on('load', function () {
     // Mapbox Marker
@@ -36,8 +38,16 @@ map.on('load', function () {
         return arr[i]
     }
 
+    map.on('click', function (e) {
+        console.log(e);
+        marker.setLngLat(e.lngLat);
+        getWeather();
+        getCurrentWeather();
+    })
+
     geocoder.on('result', function (e) {
         marker.setLngLat(e.result.center);
+        getCurrentWeather();
         getWeather();
         $(".mapboxgl-ctrl-geocoder--input").val('');
     })
