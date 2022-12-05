@@ -115,17 +115,18 @@ $(function () {
                 popup.setLngLat([onDragEnd(0), onDragEnd(1)])
                 .setHTML(`<div class="card row text-center container-fluid p-0 m-auto">
                 <h4 class='card-header p-0 cards' id='date-current'>${convertDate(data.dt)}</h4>
-                <ul class="list-group list-group-flush p-0">
-                        <li class="list-group-item p-0" id="temp-current"><strong>${data.main.temp.toFixed(1)}</strong>&#8457</li>
-                        <li class="list-group-item p-0" id="desc-current"><strong>${capitalizeFirstLetter(data.weather[0].description)}</strong><img src=${weatherIcon} style="height: 50px; width: 50px;"></li>
-                        <li class="list-group-item p-0" id="hum-current">Humidity: <strong>${data.main.humidity}%</strong></li>
-                        <li class="list-group-item p-0" id="wind-current">Wind: <strong>${data.wind.speed}</strong> mph</li>
-                        <li class="list-group-item p-0" id="pres-current">Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg</li>
+                <ul class="list-group list-group-flush p-0 popup-bg">
+                        <li class="list-group-item p-0 popup-bg" id="temp-current"><strong>${data.main.temp.toFixed(1)}</strong>&#8457</li>
+                        <li class="list-group-item p-0 popup-bg" id="desc-current"><strong>${capitalizeFirstLetter(data.weather[0].description)}</strong><img src=${weatherIcon} style="height: 50px; width: 50px;"></li>
+                        <li class="list-group-item p-0 popup-bg" id="hum-current">Humidity: <strong>${data.main.humidity}%</strong></li>
+                        <li class="list-group-item p-0 popup-bg" id="wind-current">Wind: <strong>${data.wind.speed}</strong> mph</li>
+                        <li class="list-group-item p-0 popup-bg" id="pres-current">Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg</li>
                 </ul>`)
                 .addTo(map)
 
             //get city
             $("#city").html(`Current City: ${data.name}`);
+            $("#h-item-1").html(`Current: ${data.name} <strong>${data.main.temp.toFixed(1)}</strong>&#8457 <strong>${capitalizeFirstLetter(data.weather[0].description)}</strong>, <strong>${data.main.humidity}%</strong> humidity, <strong>${data.wind.speed}</strong> mph winds`)
             //get time
             $("#timer").html(`Weather Data last accessed: ${changeToTimezone(data.dt, data.timezone)}`);
             //get date
@@ -157,6 +158,7 @@ $(function () {
             }
             //get city
             $("#city").html(`Current City: ${data.city.name}`);
+            $("#h-item-2").html(`Tomorrow: ${data.city.name} <strong>${data.list[0].main.temp.toFixed(1)}</strong>&#8457 <strong>${capitalizeFirstLetter(data.list[0].weather[0].description)}</strong>, <strong>${data.list[0].main.humidity}%</strong> humidity, <strong>${data.list[0].wind.speed}</strong> mph winds`)
             //get dates
             $("#date-1").html(convertDate(data.list[0].dt));
             $("#date-2").html(convertDate(data.list[8].dt));
