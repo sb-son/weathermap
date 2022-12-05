@@ -25,38 +25,51 @@ map.on('load', function () {
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
         marker: false
-    })
+    });
 
     map.addControl(
         geocoder
     );
 
-    function onDragEnd(i) {
-        const lngLat = marker.getLngLat();
-        let arr = []
-        arr.push(lngLat.lng, lngLat.lat)
-        return arr[i]
-    }
+    //Navigation '+' & '-' zoom buttons
+    map.addControl(new mapboxgl.NavigationControl());
 
     map.on('click', function (e) {
-        console.log(e);
         marker.setLngLat(e.lngLat);
-        getWeather();
+        map.flyTo({
+            center: [onDragEnd(0), onDragEnd(1)],
+            essential: true,
+            duration: 800
+        })
         getCurrentWeather();
+        getWeather();
     })
+
     geocoder.on('result', function (e) {
         marker.setLngLat(e.result.center);
-        map.setCenter(e.result.center);
+        map.flyTo({
+            center: [onDragEnd(0), onDragEnd(1)],
+            essential: true,
+            duration: 850
+        })
         getCurrentWeather();
         getWeather();
         $(".mapboxgl-ctrl-geocoder--input").val('');
     })
-    map.addControl(new mapboxgl.NavigationControl());
-    marker.on('dragend', onDragEnd);
-    marker.on('dragend', getWeather);
-    marker.on('dragend', getCurrentWeather);
-    getWeather(); //get weather on page load
+
+    marker.on('dragend', function () {
+        map.flyTo({
+            center: [onDragEnd(0), onDragEnd(1)],
+            essential: true,
+            duration: 800
+        })
+        onDragEnd();
+        getCurrentWeather();
+        getWeather();
+    })
+    //get weather on page load
     getCurrentWeather();
+    getWeather();
 
     function getCurrentWeather() {
         $.get("http://api.openweathermap.org/data/2.5/weather", {
@@ -79,8 +92,6 @@ map.on('load', function () {
             $("#wind-current").html(`Wind: <strong>${data.wind.speed}</strong> mph`);
             //get pressure
             $("#pres-current").html(`Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg`);
-
-            console.log('current weather', data);
         });
     }
 
@@ -130,9 +141,14 @@ map.on('load', function () {
             $("#pres-3").html(`Barometer: <strong>${baroPressure(data.list[16].main.pressure).toFixed(2)}</strong> inHg`);
             $("#pres-4").html(`Barometer: <strong>${baroPressure(data.list[24].main.pressure).toFixed(2)}</strong> inHg`);
             $("#pres-5").html(`Barometer: <strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
-
-            console.log('5 day forecast', data);
         });
+    }
+
+    function onDragEnd(i) {
+        const lngLat = marker.getLngLat();
+        let arr = []
+        arr.push(lngLat.lng, lngLat.lat)
+        return arr[i]
     }
 });
 
