@@ -25,6 +25,24 @@ $(function () {
         mapboxgl: mapboxgl,
         marker: false
     });
+    const markerHeight = 50;
+    const markerRadius = 10;
+    const linearOffset = 25;
+    const popupOffsets = {
+        'top': [0, 0],
+        'top-left': [0, 0],
+        'top-right': [0, 0],
+        'bottom': [0, -markerHeight],
+        'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+        'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+        'left': [markerRadius, (markerHeight - markerRadius) * -1],
+        'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+    };
+    //popup
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        offset: popupOffsets
+    })
 
     map.on('load', function () {
         //get weather on page load
@@ -36,6 +54,7 @@ $(function () {
             geocoder
         );
         map.addControl(new mapboxgl.NavigationControl()); //Navigation '+' & '-' zoom buttons
+        map.addControl(new mapboxgl.FullscreenControl()); //Fullscreen button
 
         //EVENTS
         map.on('click', function (e) {
@@ -81,6 +100,8 @@ $(function () {
         return arr[i]
     }
 
+    console.log(marker.getLngLat())
+
     //OPENWEATHER API
     function getCurrentWeather() {
         $.get("http://api.openweathermap.org/data/2.5/weather", {
@@ -90,6 +111,19 @@ $(function () {
             APPID: OPEN_WEATHER_MAP_KEY
         }).done(function (data) {
             let weatherIcon = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+            //popup
+                popup.setLngLat([onDragEnd(0), onDragEnd(1)])
+                .setHTML(`<div class="card row text-center container-fluid p-0 m-auto">
+                <h4 class='card-header p-0 cards' id='date-current'>${convertDate(data.dt)}</h4>
+                <ul class="list-group list-group-flush p-0">
+                        <li class="list-group-item p-0" id="temp-current"><strong>${data.main.temp.toFixed(1)}</strong>&#8457</li>
+                        <li class="list-group-item p-0" id="desc-current"><strong>${capitalizeFirstLetter(data.weather[0].description)}</strong><img src=${weatherIcon} style="height: 50px; width: 50px;"></li>
+                        <li class="list-group-item p-0" id="hum-current">Humidity: <strong>${data.main.humidity}%</strong></li>
+                        <li class="list-group-item p-0" id="wind-current">Wind: <strong>${data.wind.speed}</strong> mph</li>
+                        <li class="list-group-item p-0" id="pres-current">Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg</li>
+                </ul>`)
+                .addTo(map)
+
             //get city
             $("#city").html(`Current City: ${data.name}`);
             //get time
@@ -97,7 +131,7 @@ $(function () {
             //get date
             $("#date-current").html(convertDate(data.dt))
             //get temp
-            $("#temp-current").html(data.main.temp.toFixed(1) + '&#8457')
+            $("#temp-current").html(`<strong>${data.main.temp.toFixed(1)}</strong>&#8457`)
             //get description
             $("#desc-current").html(`<strong>${capitalizeFirstLetter(data.weather[0].description)}</strong><img src=${weatherIcon} style="height: 50px; width: 50px; position: relative">`);
             //get humidity
