@@ -90,6 +90,8 @@ $(function () {
             APPID: OPEN_WEATHER_MAP_KEY
         }).done(function (data) {
             let weatherIcon = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+            //get city
+            $("#city").html(`Current City: ${data.name}`);
             //get time
             $("#timer").html(`Weather Data last accessed: ${changeToTimezone(data.dt, data.timezone)}`);
             //get date
