@@ -25,6 +25,7 @@ $(function () {
         mapboxgl: mapboxgl,
         marker: false
     });
+    //popup offsets
     const markerHeight = 50;
     const markerRadius = 10;
     const linearOffset = 25;
@@ -121,7 +122,6 @@ $(function () {
                         <li class="list-group-item p-0 popup-bg" id="pres-current">Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg</li>
                 </ul>`)
                 .addTo(map)
-
             //get city
             $("#city").html(`Current City: ${data.name}`);
             $("#h-item-1").html(`Current: ${data.name} <strong>${data.main.temp.toFixed(1)}</strong>&#8457 <strong>${capitalizeFirstLetter(data.weather[0].description)}</strong>, <strong>${data.main.humidity}%</strong> humidity, <strong>${data.wind.speed}</strong> mph winds`)
@@ -141,7 +141,6 @@ $(function () {
             $("#pres-current").html(`Barometer: <strong>${baroPressure(data.main.pressure).toFixed(2)}</strong> inHg`);
         });
     }
-
 
     //FUNCTIONS
     function getWeather() {
@@ -195,6 +194,7 @@ $(function () {
             $("#pres-5").html(`Barometer: <strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
         });
     }
+
     //convert hectopascals to inch of mercury | hPa -> inHg
     function baroPressure(pressure) {
         const inchOfMercuryPerHectopascal = 0.02952998597817832;
@@ -212,6 +212,7 @@ $(function () {
         var time = day + '<br>' + ' ' + month + ' ' + date;
         return time;
     }
+
     //Capitalize first letter of a string
     function capitalizeFirstLetter(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
