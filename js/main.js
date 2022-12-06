@@ -100,8 +100,6 @@ $(function () {
         return arr[i]
     }
 
-    console.log(marker.getLngLat())
-
     //OPENWEATHER API
     function getCurrentWeather() {
         $.get("http://api.openweathermap.org/data/2.5/weather", {
@@ -226,6 +224,6 @@ $(function () {
     }, 1000)
 
     function changeToTimezone(dt, tz) {
-        return new Date((dt * 1000 - (tz * 1000))).toString().slice(4,33)
+        return new Date((dt * 1000) + (tz * 1000)).toUTCString().toString().slice(0, 26)
     }
 });
