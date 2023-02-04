@@ -3,13 +3,20 @@
 $(function () {
     //VARIABLES
     //MAPBOX API
+//sets default location if a location is not in local storage
+    if (!localStorage.getItem("favoriteLocation")) {
+        defaultLocation();
+    }
+    const favoriteLocationData = JSON.parse(localStorage.getItem("favoriteLocation"));
+    const lng = favoriteLocationData.lng;
+    const lat = favoriteLocationData.lat;
     mapboxgl.accessToken = MAP_BOX_KEY
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/sb-son/clb9jshhj000215oysby033kj', // style URL
         color: '#315b7d',
         projection: 'mercator',
-        center: [-98.4861, 29.4260], // starting position [lng, lat]
+        center: [lng, lat], // starting position [lng, lat]
         zoom: 7.15 // starting zoom
     });
     // Mapbox Marker
@@ -17,7 +24,7 @@ $(function () {
         color: '#006AFF',
         draggable: true
     })
-        .setLngLat([-98.4861, 29.4260])
+        .setLngLat([lng, lat])
         .addTo(map);
     //Mapbox geocoder/search
     const geocoder = new MapboxGeocoder({
@@ -110,6 +117,15 @@ $(function () {
             APPID: OPEN_WEATHER_MAP_KEY
         }).done(function (data) {
             let weatherIcon = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+            //Allows use to set favorite location that persists in local storage
+            $("#favorite-btn").click (function () {
+                const currLocation = {
+                    city: data.name,
+                    lat: data.coord.lat,
+                    lng: data.coord.lon
+                };
+                localStorage.setItem("favoriteLocation", JSON.stringify(currLocation));
+            });
             //popup
                 popup.setLngLat([onDragEnd(0), onDragEnd(1)])
                 .setHTML(`<div class="card row text-center container-fluid p-0 m-auto">
@@ -193,6 +209,16 @@ $(function () {
             $("#pres-4").html(`Barometer: <strong>${baroPressure(data.list[24].main.pressure).toFixed(2)}</strong> inHg`);
             $("#pres-5").html(`Barometer: <strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
         });
+    }
+
+    //sets a default location to san antonio
+    function defaultLocation() {
+        const defaultLoc = {
+            city: "San Antonio",
+            lat: 29.4252,
+            lng: -98.4946
+        }
+        localStorage.setItem("favoriteLocation", JSON.stringify(defaultLoc));
     }
 
     //convert hectopascals to inch of mercury | hPa -> inHg
