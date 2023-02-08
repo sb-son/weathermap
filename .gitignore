@@ -3,17 +3,3 @@
 .DS_STORE
 js/keys.js
 js/mapbox-geocoder-utils.js
-
-#let timezoneArray = []
-
-#if (timezoneArray.length === 2){
-#                clearInterval(timezone)
-#            }
-#
-#            let timezone = setInterval( function () {
-#                let dt = new Date(Date.now() + (data.timezone * 1000)).toUTCString().slice(0,25);
-#                $("#timer-2").html(dt);
-#            }, 1000)
-#            timezoneArray.push(data.timezone)
-#            console.log(timezoneArray)
-#            console.log(timezoneArray.length)
