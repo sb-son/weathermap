@@ -1,4 +1,4 @@
-# weathermap
+# Weathermap
 Weather Map is an application that provides current weather conditions and a five-day forecast for any location. It uses HTML, CSS, jQuery, AJAX, and APIs from OpenWeatherMap and Mapbox to create an interactive weather experience. The application includes a map view and a location search feature, making it easy for users to stay updated on weather conditions.
 
 ## Prerequisites
@@ -17,10 +17,6 @@ Weather Map is an application that provides current weather conditions and a fiv
 - Click anywhere on the map
 - Drag the marker and drop on a location
 - Click the favorite button to mark your favorite location (This persists the current location in local storage)
-
-## In progress
-- Expanding favorite location features
-- Styling the favorite button
 
 ## Built With
 - HTML
