@@ -8,8 +8,8 @@ Weather Map is an application that provides current weather conditions and a fiv
 ## Getting Started
 1. Create a keys.js file in the js directory to store your api keys
 2. Create variables for your api keys: 
-  - **const OPEN_WEATHER_MAP_KEY = 'YOUR_API_KEY_GOES_HERE'**
-  - **const MAP_BOX_KEY = 'YOUR_API_KEY_GOES_HERE'**
+  - **const OPEN_WEATHER_MAP_KEY = `YOUR_API_KEY_GOES_HERE`**
+  - **const MAP_BOX_KEY = `YOUR_API_KEY_GOES_HERE`**
 3. The starting point is set in the defaultLocation function of main.js - change the city, lat and lng values to change it to the location of your choice.
 
 ## Features

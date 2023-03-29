@@ -56,6 +56,8 @@ $(function () {
         //get weather on page load
         getCurrentWeather();
         getWeather();
+        //add precip layer to map
+        addPrecipitationLayer();
 
         //CONTROLS
         map.addControl( //geocoder | search bar
@@ -208,6 +210,27 @@ $(function () {
             $("#pres-3").html(`Barometer: <strong>${baroPressure(data.list[16].main.pressure).toFixed(2)}</strong> inHg`);
             $("#pres-4").html(`Barometer: <strong>${baroPressure(data.list[24].main.pressure).toFixed(2)}</strong> inHg`);
             $("#pres-5").html(`Barometer: <strong>${baroPressure(data.list[32].main.pressure).toFixed(2)}</strong> inHg`);
+        });
+    }
+
+    //get precipitation layer
+    function addPrecipitationLayer() {
+        //Source for precip data
+        map.addSource('owm-precip', {
+            type: 'raster',
+            tiles: [
+                `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${OPEN_WEATHER_MAP_KEY}`
+            ]
+        });
+
+        //map layer
+        map.addLayer({
+            id: 'owm-precip-layer',
+            type: 'raster',
+            source: 'owm-precip',
+            layout: {
+                visibility: 'visible'
+            }
         });
     }
 
