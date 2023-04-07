@@ -58,6 +58,8 @@ $(function () {
         getWeather();
         //add precip layer to map
         addPrecipitationLayer();
+        //add wind layer to map
+        addWindLayer();
 
         //CONTROLS
         map.addControl( //geocoder | search bar
@@ -228,6 +230,26 @@ $(function () {
             id: 'owm-precip-layer',
             type: 'raster',
             source: 'owm-precip',
+            layout: {
+                visibility: 'visible'
+            }
+        });
+    }
+
+    function addWindLayer() {
+        //Source for precip data
+        map.addSource('owm-wind', {
+            type: 'raster',
+            tiles: [
+                `https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${OPEN_WEATHER_MAP_KEY}`
+            ]
+        });
+
+        //map layer
+        map.addLayer({
+            id: 'owm-wind-layer',
+            type: 'raster',
+            source: 'owm-wind',
             layout: {
                 visibility: 'visible'
             }
