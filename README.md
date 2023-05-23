@@ -1,6 +1,8 @@
 # Weathermap
 Weather Map is an application that provides current weather conditions and a five-day forecast for any location. It uses HTML, CSS, jQuery, AJAX, and APIs from OpenWeatherMap and Mapbox to create an interactive weather experience. The application includes a map view and a location search feature, making it easy for users to stay updated on weather conditions.
 
+https://github.com/sb-son/weathermap/assets/78707396/02f473d8-dbc1-4f75-ac61-622481587ac8
+
 ## Prerequisites
 - API key for OpenWeatherMap API
 - API key for Mapbox API
